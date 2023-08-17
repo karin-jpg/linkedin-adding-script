@@ -9,6 +9,7 @@ async function AddConnections() {
 		}
 
 		for (const person of results) {
+			window.scrollTo(0, document.body.scrollHeight);
 			await addPerson(person);
 		}
 
@@ -23,7 +24,6 @@ async function addPerson(person) {
 			setTimeout(async () => {
 
 				let isEmailRequired = await validateEmailRequest();
-				console.log(isEmailRequired)
 				if (isEmailRequired) {
 					document.querySelector("button[aria-label='Dismiss']").click();
 					resolve();
