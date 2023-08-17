@@ -29,7 +29,7 @@ async function sendMessage(button) {
 		button.click();
         setTimeout(() => {
             let el = document.querySelector("textarea[name='message']")
-            el.value = "Olá,\nGostaria de te adicionar na minha rede de contatos.\n\nAtenciosamente,\n\nMarcus Rodrigues https://github.com/Spartzed";
+            el.value = " ";
             let evt = document.createEvent("Events");
             evt.initEvent("change", true, true);
             el.dispatchEvent(evt);
