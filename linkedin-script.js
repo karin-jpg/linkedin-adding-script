@@ -7,7 +7,7 @@ async function AddConnections() {
 		for (const person of results) {
 			await addPerson(person);
 		}
-		resolve()
+		resolve();
 	})
 	
 }
@@ -17,7 +17,6 @@ async function addPerson(person) {
 		clickButton(person).then(async () => {
 			setTimeout(async () => {
 				let addNoteButton = document.querySelector(".artdeco-modal__actionbar button[aria-label='Add a note']");
-				console.log(addNoteButton);
 				await sendMessage(addNoteButton);
 
 				let sendButton = document.querySelector(".artdeco-modal__actionbar.ember-view button[aria-label='Send now']");
@@ -59,11 +58,12 @@ async function getResults() {
 
 
 async function changePage() {
-	
-	for (let i = 0; i < MAXPAGES; i++) {
 
+	let iterations = 0;
+	do {
 		let stateCheck = setInterval(async () => {
 			if (document.readyState === 'complete') {
+				console.log("carregou")
 				clearInterval(stateCheck);
 				await AddConnections()
 				let pagination = document.querySelector(".artdeco-pagination");
@@ -71,12 +71,15 @@ async function changePage() {
 				let nextPage = currentPage.nextElementSibling;
 		
 				nextPage.querySelector("button").click()
+				iterations++;
 			}
 		}, 100)
+	} while (iterations < MAXPAGES);
+	
+	for (let i = 0; i < MAXPAGES; i++) {
+
+		
 	}
-
-	return;
-
 }
 
 changePage()
