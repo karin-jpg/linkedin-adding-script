@@ -7,8 +7,9 @@ async function AddConnections() {
 		for (const person of results) {
 			await addPerson(person);
 		}
-		resolve();
-	})
+
+		resolve();	
+	});
 	
 }
 
@@ -22,8 +23,8 @@ async function addPerson(person) {
 				let sendButton = document.querySelector(".artdeco-modal__actionbar.ember-view button[aria-label='Send now']");
 				setTimeout(async () => {
 					await clickButton(sendButton);
+					resolve();
 				}, 600);
-				resolve();
 			}, 600);
 		});
 	});
@@ -60,24 +61,19 @@ async function getResults() {
 async function changePage() {
 
 	let iterations = 0;
-	do {
-		iterations++;
-		let stateCheck = setInterval(async () => {
-			if (document.readyState === 'complete') {
-				console.log("carregou")
-				clearInterval(stateCheck);
-				AddConnections()
-				.then(() => {
-					let pagination = document.querySelector(".artdeco-pagination");
-					let currentPage = pagination.querySelector(".active");
-					let nextPage = currentPage.nextElementSibling;
-					nextPage.querySelector("button").click()
-				})
-				
-				
-			}
-		}, 100)
-	} while (iterations < MAXPAGES);
+	let stateCheck = setInterval(async () => {
+		if (document.readyState === 'complete') {
+			clearInterval(stateCheck);
+			AddConnections()
+			.then(() => {
+				let pagination = document.querySelector(".artdeco-pagination");
+				let currentPage = pagination.querySelector(".active");
+				let nextPage = currentPage.nextElementSibling;
+				nextPage.querySelector("button").click()
+			})
+			
+		}
+	}, 1000)
 
 }
 
