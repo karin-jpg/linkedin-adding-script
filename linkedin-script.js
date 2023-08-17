@@ -61,6 +61,7 @@ async function changePage() {
 
 	let iterations = 0;
 	do {
+		iterations++;
 		let stateCheck = setInterval(async () => {
 			if (document.readyState === 'complete') {
 				console.log("carregou")
@@ -71,11 +72,11 @@ async function changePage() {
 				let nextPage = currentPage.nextElementSibling;
 		
 				nextPage.querySelector("button").click()
-				iterations++;
+				
 			}
 		}, 100)
 	} while (iterations < MAXPAGES);
 
 }
 
-changePage()
+changePage();
