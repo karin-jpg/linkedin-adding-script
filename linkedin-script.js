@@ -75,11 +75,7 @@ async function changePage() {
 			}
 		}, 100)
 	} while (iterations < MAXPAGES);
-	
-	for (let i = 0; i < MAXPAGES; i++) {
 
-		
-	}
 }
 
 changePage()
