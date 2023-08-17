@@ -9,6 +9,7 @@ async function AddConnections() {
 		}
 
 		for (const person of results) {
+			window.scrollTo(0, document.body.scrollHeight);
 			await addPerson(person);
 		}
 
