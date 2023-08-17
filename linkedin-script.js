@@ -68,7 +68,6 @@ async function changePage(iterations = 0) {
     }
 
     if (document.readyState === 'complete') {
-        console.log("carregou");
         try {
             AddConnections().then(async() => {
 				let pagination = document.querySelector(".artdeco-pagination");
