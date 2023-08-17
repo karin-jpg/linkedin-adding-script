@@ -1,9 +1,15 @@
-async function AddConnections() {
-	let results = await getResults();
+const MAXPAGES = 10;
 
-	for (const person of results) {
-		await addPerson(person);
-	}
+async function AddConnections() {
+	return new Promise(async resolve => {
+		let results = await getResults();
+
+		for (const person of results) {
+			await addPerson(person);
+		}
+		resolve()
+	})
+	
 }
 
 async function addPerson(person) {
@@ -48,15 +54,29 @@ async function clickButton(button) {
 async function getResults() {
 	return [...document.querySelectorAll(".entity-result .artdeco-button")].filter(a => {
 		return a.textContent.trim() === "Connect";
-	}).splice(0, 1);
+	});
 }
 
 
-function changePage() {
-	let pagination = document.querySelector(".artdeco-pagination");
-	let currentPage = pagination.querySelector(".active");
-	console.log(currentPage);
+async function changePage() {
+	
+
+	for (let i = 0; i < MAXPAGES; i++) {
+
+		let stateCheck = onreadystatechange(async () => {
+			if (document.readyState === 'complete') {
+				await AddConnections()
+				let pagination = document.querySelector(".artdeco-pagination");
+				let currentPage = pagination.querySelector(".active");
+				let nextPage = currentPage.nextElementSibling;
+		
+				nextPage.querySelector("button").click()
+			}
+		})
+
+		
+	}
+
 }
 
-// AddConnections();
 changePage()
