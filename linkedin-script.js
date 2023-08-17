@@ -21,6 +21,14 @@ async function addPerson(person) {
 	return new Promise(resolve => {
 		clickButton(person).then(async () => {
 			setTimeout(async () => {
+
+				let isEmailRequired = await validateEmailRequest();
+				console.log(isEmailRequired)
+				if (isEmailRequired) {
+					document.querySelector("button[aria-label='Dismiss']").click();
+					resolve();
+				}
+
 				let addNoteButton = document.querySelector(".artdeco-modal__actionbar button[aria-label='Add a note']");
 				await sendMessage(addNoteButton);
 
@@ -33,6 +41,12 @@ async function addPerson(person) {
 		});
 	});
 }
+
+async function validateEmailRequest() {
+	let emailLabel = document.querySelector("label[for='email']");
+	
+	return (emailLabel != null)
+} 
 
 async function sendMessage(button) {
 	return new Promise(resolve => {
