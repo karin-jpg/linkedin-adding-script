@@ -4,6 +4,10 @@ async function AddConnections() {
 	return new Promise(async resolve => {
 		let results = await getResults();
 
+		if (results.length == 0) {
+			return resolve();
+		}
+
 		for (const person of results) {
 			await addPerson(person);
 		}
@@ -58,34 +62,33 @@ async function getResults() {
 }
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function changePage(iterations = 0) {
-    if (iterations >= MAXPAGES) {
-        console.log("Completed all pages");
-        return;
-    }
+	if (iterations >= MAXPAGES) {
+		console.log("Completed all pages");
+		return;
+	}
 
-    if (document.readyState === 'complete') {
-        try {
-            AddConnections().then(async() => {
+	if (document.readyState === 'complete') {
+		try {
+			AddConnections().then(async() => {
 				let pagination = document.querySelector(".artdeco-pagination");
-				let currentPage = pagination.querySelector(".active");
-				let nextPage = currentPage.nextElementSibling;
-				nextPage.querySelector("button").click();
-	
+			
+				let nextButton = pagination.querySelector("button[arial-label='Next']")
+				nextButton.click();
 				await sleep(2000);
 				await changePage(iterations + 1);
 			});
 
-        } catch (error) {
-            console.error("Error processing page:", error);
-        }
-    } else {
-        await sleep(2000);
-        await changePage(iterations);
-    }
+		} catch (error) {
+			console.error("Error processing page:", error);
+		}
+	} else {
+		await sleep(2000);
+		await changePage(iterations);
+	}
 }
 
 changePage();
