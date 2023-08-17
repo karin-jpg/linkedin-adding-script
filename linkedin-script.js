@@ -60,11 +60,11 @@ async function getResults() {
 
 async function changePage() {
 	
-
 	for (let i = 0; i < MAXPAGES; i++) {
 
-		let stateCheck = onreadystatechange(async () => {
-			if (document.readyState === 'complete') {
+		let stateCheck = setInterval(async () => {
+			if (document.onreadystatechange === 'complete') {
+				clearInterval(stateCheck);
 				await AddConnections()
 				let pagination = document.querySelector(".artdeco-pagination");
 				let currentPage = pagination.querySelector(".active");
@@ -72,10 +72,10 @@ async function changePage() {
 		
 				nextPage.querySelector("button").click()
 			}
-		})
-
-		
+		}, 100)
 	}
+
+	return;
 
 }
 
