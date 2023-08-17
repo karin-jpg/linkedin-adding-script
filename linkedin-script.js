@@ -75,8 +75,7 @@ async function changePage(iterations = 0) {
 		try {
 			AddConnections().then(async() => {
 				let pagination = document.querySelector(".artdeco-pagination");
-			
-				let nextButton = pagination.querySelector("button[arial-label='Next']")
+				let nextButton = pagination.querySelector("button[aria-label='Next']")
 				nextButton.click();
 				await sleep(2000);
 				await changePage(iterations + 1);
