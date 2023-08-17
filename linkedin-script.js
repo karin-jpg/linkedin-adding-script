@@ -63,7 +63,7 @@ async function changePage() {
 	for (let i = 0; i < MAXPAGES; i++) {
 
 		let stateCheck = setInterval(async () => {
-			if (document.onreadystatechange === 'complete') {
+			if (document.readyState === 'complete') {
 				clearInterval(stateCheck);
 				await AddConnections()
 				let pagination = document.querySelector(".artdeco-pagination");
