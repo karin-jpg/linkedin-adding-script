@@ -24,8 +24,8 @@ async function addPerson(person) {
 				setTimeout(async () => {
 					await clickButton(sendButton);
 					resolve();
-				}, 600);
-			}, 600);
+				}, 3000);
+			}, 3000);
 		});
 	});
 }
@@ -39,7 +39,7 @@ async function sendMessage(button) {
 			let evt = document.createEvent("Events");
 			evt.initEvent("change", true, true);
 			el.dispatchEvent(evt);
-		}, 200);
+		}, 2000);
 		resolve();
 	});
 }
@@ -57,24 +57,36 @@ async function getResults() {
 	});
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-async function changePage() {
+async function changePage(iterations = 0) {
+    if (iterations >= MAXPAGES) {
+        console.log("Completed all pages");
+        return;
+    }
 
-	let iterations = 0;
-	let stateCheck = setInterval(async () => {
-		if (document.readyState === 'complete') {
-			clearInterval(stateCheck);
-			AddConnections()
-			.then(() => {
+    if (document.readyState === 'complete') {
+        console.log("carregou");
+        try {
+            AddConnections().then(async() => {
 				let pagination = document.querySelector(".artdeco-pagination");
 				let currentPage = pagination.querySelector(".active");
 				let nextPage = currentPage.nextElementSibling;
-				nextPage.querySelector("button").click()
-			})
-			
-		}
-	}, 1000)
+				nextPage.querySelector("button").click();
+	
+				await sleep(2000);
+				await changePage(iterations + 1);
+			});
 
+        } catch (error) {
+            console.error("Error processing page:", error);
+        }
+    } else {
+        await sleep(2000);
+        await changePage(iterations);
+    }
 }
 
 changePage();
