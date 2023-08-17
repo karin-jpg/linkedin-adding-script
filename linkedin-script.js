@@ -66,12 +66,14 @@ async function changePage() {
 			if (document.readyState === 'complete') {
 				console.log("carregou")
 				clearInterval(stateCheck);
-				await AddConnections()
-				let pagination = document.querySelector(".artdeco-pagination");
-				let currentPage = pagination.querySelector(".active");
-				let nextPage = currentPage.nextElementSibling;
-		
-				nextPage.querySelector("button").click()
+				AddConnections()
+				.then(() => {
+					let pagination = document.querySelector(".artdeco-pagination");
+					let currentPage = pagination.querySelector(".active");
+					let nextPage = currentPage.nextElementSibling;
+					nextPage.querySelector("button").click()
+				})
+				
 				
 			}
 		}, 100)
