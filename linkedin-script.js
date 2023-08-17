@@ -80,7 +80,7 @@ function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function changePage(iterations = 0) {
+async function startConnections(iterations = 0) {
 	if (iterations >= MAXPAGES) {
 		console.log("Completed all pages");
 		return;
@@ -93,7 +93,7 @@ async function changePage(iterations = 0) {
 				let nextButton = pagination.querySelector("button[aria-label='Next']")
 				nextButton.click();
 				await sleep(2000);
-				await changePage(iterations + 1);
+				await startConnections(iterations + 1);
 			});
 
 		} catch (error) {
@@ -101,8 +101,8 @@ async function changePage(iterations = 0) {
 		}
 	} else {
 		await sleep(2000);
-		await changePage(iterations);
+		await startConnections(iterations);
 	}
 }
 
-changePage();
+startConnections();
