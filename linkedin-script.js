@@ -1,4 +1,4 @@
-const MAXPAGES = 10;
+const MAXPAGES = 40;
 
 async function AddConnections() {
 	return new Promise(async resolve => {
@@ -89,8 +89,8 @@ async function startConnections(iterations = 0) {
 	if (document.readyState === 'complete') {
 		try {
 			AddConnections().then(async() => {
-				let pagination = document.querySelector(".artdeco-pagination");
-				let nextButton = pagination.querySelector("button[aria-label='Next']")
+				await sleep(2000);
+				let nextButton = document.querySelector(".artdeco-pagination button[aria-label='Next']")
 				nextButton.click();
 				await sleep(2000);
 				await startConnections(iterations + 1);
