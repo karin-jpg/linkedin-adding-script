@@ -1,11 +1,14 @@
-const MAXPAGES = 40;
+const MAXPAGES = 10;
+const MESSAGE = "";
 
 async function AddConnections() {
 	return new Promise(async resolve => {
 		let results = await getResults();
 
 		if (results.length == 0) {
-			return resolve();
+			setTimeout(() => {
+				return resolve();
+			}, 500);
 		}
 
 		for (const person of results) {
@@ -46,14 +49,36 @@ async function validateEmailRequest() {
 	let emailLabel = document.querySelector("label[for='email']");
 	
 	return (emailLabel != null)
-} 
+}
+
+function processName(fullName) {
+    const nameParts = fullName.split(" ");
+    const firstName = nameParts[0];
+    let lastName = nameParts[1] || "";
+
+    if (lastName.length <= 2 && nameParts[2]) {
+        lastName = nameParts[2];
+    }
+
+    if (firstName.length + lastName.length > 14) {
+        if (firstName.length < 12) {
+            return `${firstName} ${lastName.charAt(0)}`;
+        } else {
+            return "";
+        }
+    } else {
+        return fullName;
+    }
+}
 
 async function sendMessage(button) {
 	return new Promise(resolve => {
-		button.click();
+		var personName = "";
+		button.click()
+		personName = document.querySelector(".artdeco-modal__content.ember-view strong").innerText
 		setTimeout(() => {
 			let el = document.querySelector("textarea[name='message']")
-			el.value = " ";
+			el.value = `Hi ${processName(personName)}!\n\n${MESSAGE}`;;
 			let evt = document.createEvent("Events");
 			evt.initEvent("change", true, true);
 			el.dispatchEvent(evt);
