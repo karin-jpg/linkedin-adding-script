@@ -1,5 +1,5 @@
-const MAXPAGES = 40;
-const MESSAGE = "My name is Marcus and I'm a Full Stack developer with a strong background in back-end technologies such as PHP. I'm looking for new remote opportunities. If there are any positions available that align with my experience and skills, I would greatly appreciate hearing about them.";
+const MAXPAGES = 10;
+const MESSAGE = "";
 
 async function AddConnections() {
 	return new Promise(async resolve => {
@@ -27,7 +27,6 @@ async function addPerson(person) {
 			setTimeout(async () => {
 
 				let isEmailRequired = await validateEmailRequest();
-				console.log(isEmailRequired)
 				if (isEmailRequired) {
 					document.querySelector("button[aria-label='Dismiss']").click();
 					resolve();
@@ -114,8 +113,8 @@ async function startConnections(iterations = 0) {
 	if (document.readyState === 'complete') {
 		try {
 			AddConnections().then(async() => {
-				let pagination = document.querySelector(".artdeco-pagination");
-				let nextButton = pagination.querySelector("button[aria-label='Next']")
+				await sleep(2000);
+				let nextButton = document.querySelector(".artdeco-pagination button[aria-label='Next']")
 				nextButton.click();
 				await sleep(2000);
 				await startConnections(iterations + 1);
